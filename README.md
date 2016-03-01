@@ -20,7 +20,7 @@ Specify which namespace regex patterns to `:include` and `:exclude` in your `pro
 ```clojure
 :docstring-checker {:include [#"^my-project\.core"]
                     :exclude [#"test"
-                              #"^my-project\.secret
+                              #"^my-project\.secret"]}
 ```
 
 Then run the linter with
