@@ -29,6 +29,8 @@ Then run the linter with
 $ lein docstring-checker
 ```
 
+The linter will fail if any public vars in namespaces that match the specified patterns are undocumented.
+
 ## License
 
 Copyright © 2016 Cam Saül
