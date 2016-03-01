@@ -1,6 +1,10 @@
 # docstring-checker
 
+[![Leiningen Dependencies Status](https://jarkeeper.com/camsaul/lein-docstring-checker/status.png)](https://jarkeeper.com/camsaul/lein-docstring-checker)
+
 Leiningen Plugin that lints your Clojure project and checks that every public var is documented.
+
+[![Clojars Project](https://img.shields.io/clojars/v/docstring-checker.svg)](https://clojars.org/docstring-checker)
 
 ## Usage
 
