@@ -4,6 +4,7 @@
 
 
 [![Leiningen Dependencies Status](https://jarkeeper.com/camsaul/lein-docstring-checker/status.png)](https://jarkeeper.com/camsaul/lein-docstring-checker)
+[![GitHub license](https://img.shields.io/badge/license-3%E2%80%92Clause%20BSD-blue.svg)](https://raw.githubusercontent.com/camsaul/lein-docstring-checker/master/LICENSE.txt)
 
 Leiningen Plugin that lints your Clojure project and checks that every public var is documented.
 
