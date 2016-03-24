@@ -36,4 +36,4 @@ The linter will fail if any public vars in namespaces that match the specified p
 
 Copyright © 2016 Cam Saül
 
-Distributed under the 3-Clause BSD License.
+Distributed under the [3-Clause BSD License](https://raw.githubusercontent.com/camsaul/lein-docstring-checker/master/LICENSE.txt).
