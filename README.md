@@ -13,7 +13,7 @@ Leiningen Plugin that lints your Clojure project and checks that every public va
 Add `docstring-checker` to your `:plugins` in your `project.clj`:
 
 ```clojure
-:plugins [["docstring-checker" 1.0.0]]
+:plugins [[docstring-checker 1.0.0]]
 ```
 
 Specify which namespace regex patterns to `:include` and `:exclude` in your `project.clj`:
