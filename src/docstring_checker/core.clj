@@ -6,9 +6,9 @@
 
 (defn- should-check-namespace? [{:keys [include exclude]} nsname]
   (and nsname
-       (every? (fn [inclusion-pattern]
-                 (re-find inclusion-pattern nsname))
-               include)
+       (some (fn [inclusion-pattern]
+               (re-find inclusion-pattern nsname))
+             include)
        (every? (fn [exclusion-pattern]
                  (not (re-find exclusion-pattern nsname)))
                exclude)))
