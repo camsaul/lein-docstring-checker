@@ -9,7 +9,7 @@
             version))
         plugins))
 
-(defn get-packages [paths]
+(defn- get-packages [paths]
   (map #(re-pattern (str "^" (name %)))
        (b/namespaces-on-classpath :classpath
                                   (map io/file paths))))
