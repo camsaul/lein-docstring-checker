@@ -13,10 +13,10 @@ Leiningen Plugin that lints your Clojure project and checks that every public va
 Add `docstring-checker` to your `:plugins` in your `project.clj`:
 
 ```clojure
-:plugins [[docstring-checker "1.0.0"]]
+:plugins [[docstring-checker "1.0.1"]]
 ```
 
-Specify which namespace regex patterns to `:include` and `:exclude` in your `project.clj`:
+Optionally specify which namespace regex patterns to `:include` and `:exclude` in your `project.clj`:
 
 ```clojure
 :docstring-checker {:include [#"^my-project\.core"]
@@ -32,8 +32,9 @@ $ lein docstring-checker
 
 The linter will fail if any public vars in namespaces that match the specified patterns are undocumented.
 
+
 ## License
 
-Copyright © 2016 Cam Saül
+Copyright © 2017 Cam Saul
 
 Distributed under the [3-Clause BSD License](https://raw.githubusercontent.com/camsaul/lein-docstring-checker/master/LICENSE.txt).
