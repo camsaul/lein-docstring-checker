@@ -33,6 +33,18 @@ $ lein docstring-checker
 The linter will fail if any public vars in namespaces that match the specified patterns are undocumented.
 
 
+## Running Tests
+
+Docstring Checker has a few small Leiningen projects in the `test-projects` directory that are used to make sure things are working correctly.
+You can run the shell script `run-tests.sh` to make sure things are working:
+
+```bash
+./run-tests.sh
+```
+
+These tests run on CircleCI whenever a new commit is pushed.
+
+
 ## License
 
 Copyright © 2017 Cam Saul

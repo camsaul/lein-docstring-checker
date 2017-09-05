@@ -1,0 +1,4 @@
+machine:
+test:
+  override:
+    - ./run-tests.sh
