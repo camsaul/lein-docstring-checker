@@ -4,7 +4,9 @@
             (clojure.tools.namespace [find :as ns-find]
                                      [file :as ns-file])))
 
-(defn- should-check-namespace? [{:keys [include exclude]} nsname]
+(defn- should-check-namespace?
+  "Should we check the namespace with `nsname` for docstrings based on the `:include`/`:exclude` patterns?"
+  [{:keys [include exclude]} nsname]
   (and nsname
        (some (fn [inclusion-pattern]
                (re-find inclusion-pattern nsname))
@@ -13,25 +15,16 @@
                  (not (re-find exclusion-pattern nsname)))
                exclude)))
 
-(defn- load-file-or-dir [^java.io.File file-or-dir]
-  (if (.isDirectory file-or-dir)
-    (doseq [file (.listFiles file-or-dir)]
-      (load-file-or-dir file))
-    (when (ns-file/clojure-file? file-or-dir)
-      (load-file (.getCanonicalPath file-or-dir)))))
-
-(defn- things-that-need-dox [options]
-  ;; Load all the files or dirs on the classpath
-  (doseq [dir (classpath/classpath-directories)]
-    (load-file-or-dir dir))
-  ;; then iterate over all the loaded namespaces
-  (sort (for [ns          (ns-find/find-namespaces (classpath/classpath))
-              :let        [nm (try (str (ns-name ns))
-                                   (catch Throwable _))]
-              :when       (should-check-namespace? options nm)
-              [symb varr] (ns-publics ns)
+(defn- things-that-need-dox
+  "Return a sorted sequence of public vars that need documentation in namespaces that should be checked."
+  [options]
+  ;; iterate over all the available namespaces and check the ones that match the patterns
+  (sort (for [ns-symb     (ns-find/find-namespaces (classpath/classpath))
+              :when       (should-check-namespace? options (str ns-symb))
+              [symb varr] (do (require ns-symb)
+                              (ns-publics ns-symb))
               :when       (not (:doc (meta varr)))]
-          (symbol (str (ns-name ns) "/" symb)))))
+          (symbol (str (ns-name ns-symb) "/" symb)))))
 
 (defn check-docstrings
   "Check that public vars have docstrings or fail."
