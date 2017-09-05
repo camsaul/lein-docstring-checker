@@ -2,7 +2,7 @@
 
 [![Clojars Project](https://clojars.org/docstring-checker/latest-version.svg)](http://clojars.org/docstring-checker)
 
-
+[![CircleCI](https://circleci.com/gh/camsaul/lein-docstring-checker.svg?style=svg)](https://circleci.com/gh/camsaul/lein-docstring-checker)
 [![Leiningen Dependencies Status](https://jarkeeper.com/camsaul/lein-docstring-checker/status.png)](https://jarkeeper.com/camsaul/lein-docstring-checker)
 [![GitHub license](https://img.shields.io/badge/license-3%E2%80%92Clause%20BSD-blue.svg)](https://raw.githubusercontent.com/camsaul/lein-docstring-checker/master/LICENSE.txt)
 
@@ -36,7 +36,7 @@ The linter will fail if any public vars in namespaces that match the specified p
 ## Running Tests
 
 Docstring Checker has a few small Leiningen projects in the `test-projects` directory that are used to make sure things are working correctly.
-You can run the shell script `run-tests.sh` to make sure things are working:
+You can run the shell script to test them:
 
 ```bash
 ./run-tests.sh
