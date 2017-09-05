@@ -42,7 +42,7 @@ You can run the shell script to test them:
 ./run-tests.sh
 ```
 
-These tests run on CircleCI whenever a new commit is pushed.
+These tests run on [CircleCI](https://circleci.com/gh/camsaul/lein-docstring-checker) whenever a new commit is pushed.
 
 
 ## License
