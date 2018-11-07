@@ -46,6 +46,6 @@ These tests run on [CircleCI](https://circleci.com/gh/camsaul/lein-docstring-che
 
 ## License
 
-Copyright © 2017 Cam Saul
+Copyright © 2018 Cam Saul
 
 Distributed under the [3-Clause BSD License](https://raw.githubusercontent.com/camsaul/lein-docstring-checker/master/LICENSE.txt).
