@@ -3,7 +3,6 @@
 [![Clojars Project](https://clojars.org/docstring-checker/latest-version.svg)](http://clojars.org/docstring-checker)
 
 [![CircleCI](https://circleci.com/gh/camsaul/lein-docstring-checker.svg?style=svg)](https://circleci.com/gh/camsaul/lein-docstring-checker)
-[![Leiningen Dependencies Status](https://jarkeeper.com/camsaul/lein-docstring-checker/status.png)](https://jarkeeper.com/camsaul/lein-docstring-checker)
 [![GitHub license](https://img.shields.io/badge/license-3%E2%80%92Clause%20BSD-blue.svg)](https://raw.githubusercontent.com/camsaul/lein-docstring-checker/master/LICENSE.txt)
 
 Leiningen Plugin that lints your Clojure project and checks that every public var is documented.
@@ -13,7 +12,7 @@ Leiningen Plugin that lints your Clojure project and checks that every public va
 Add `docstring-checker` to your `:plugins` in your `project.clj`:
 
 ```clojure
-:plugins [[docstring-checker "1.0.2"]]
+:plugins [[docstring-checker "1.0.3"]]
 ```
 
 Optionally specify which namespace regex patterns to `:include` and `:exclude` in your `project.clj`:
