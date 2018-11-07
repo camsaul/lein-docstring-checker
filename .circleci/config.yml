@@ -1,0 +1,40 @@
+version: 2.1
+
+jobs:
+  test:
+    working_directory: /home/circleci/camsaul/lein-docstring-checker
+    docker:
+      - image: circleci/clojure:lein-2.8.1
+    steps:
+      ########## FETCH SOURCE ##########
+      - restore_cache:
+          keys:
+            - source-{{ .Branch }}-{{ .Revision }}
+            - source-{{ .Branch }}-
+            - source-
+      - checkout
+      - save_cache:
+          key: source-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - .git
+      ########## FETCH DEPS ##########
+      - restore_cache:
+          keys:
+            - be-deps-{{ checksum "project.clj" }}
+            - be-deps-
+      - run: lein deps
+      - save_cache:
+          key: be-deps-{{ checksum "project.clj" }}
+          paths:
+            - /home/circleci/.m2
+      ########## RUN TESTS ##########
+      - run:
+          name: Run tests
+          command: ./run-tests.sh
+          no_output_timeout: 5m
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - test
