@@ -1,5 +1,7 @@
 #! /bin/bash
 
+lein install
+
 cd test-projects
 
 echo "Checking project 'good'..."
