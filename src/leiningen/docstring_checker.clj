@@ -42,5 +42,5 @@
   (let [project (project/merge-profiles project [(docstring-checker-profile project)])]
     (lein/eval-in-project
      project
-     `(docstring-checker.core/check-docstrings ~(docstring-checker-options project))
+     `(docstring-checker.core/check-docstrings ~(:source-paths project) ~(docstring-checker-options project))
      '(require 'docstring-checker.core))))
