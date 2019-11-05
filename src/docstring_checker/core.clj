@@ -30,15 +30,11 @@
 (defn- check-namespace
   "Check a namespace for public vars without docstrings. Returns a sequence of symbols that are missing docstrings."
   [ns-symb]
-  (try
-    (for [[symb varr] (do (require ns-symb)
-                          (ns-publics ns-symb))
-          :when       (and (not (:doc (meta varr)))
-                           (not (proxy? ns-symb symb)))]
-      (symbol (str (ns-name ns-symb) "/" symb)))
-    (catch Throwable e
-      (printf "Error checking namespace %s:\n%s\n" ns-symb e)
-      [(format "[Error: unable to check %s]" ns-symb)])))
+  (for [[symb varr] (do (require ns-symb)
+                        (ns-publics ns-symb))
+        :when       (and (not (:doc (meta varr)))
+                         (not (proxy? ns-symb symb)))]
+    (symbol (str (ns-name ns-symb) "/" symb))))
 
 (defn- things-that-need-dox
   "Return a sorted sequence of public vars that need documentation in namespaces that should be checked."
@@ -52,13 +48,17 @@
 (defn check-docstrings
   "Check that public vars have docstrings or fail."
   [source-paths {:keys [include exclude], :as options}]
-  (when (seq include)
-    (println "Including namespaces that match these patterns:" (:include options)))
-  (when (seq exclude)
-    (println "Excluding namespaces that match these patterns:" (:exclude options)))
-  (when-let [things-that-need-dox (seq (things-that-need-dox source-paths options))]
-    (println (format "Every public var might as well have a docstring! Go write some for the following (or make them ^:private):\n%s"
-                     (with-out-str (pprint/pprint things-that-need-dox))))
-    (System/exit -1))
-  (println "Everything is documented. Well done.")
-  (System/exit 0))
+  (try
+    (when (seq include)
+      (println "Including namespaces that match these patterns:" include))
+    (when (seq exclude)
+      (println "Excluding namespaces that match these patterns:" exclude))
+    (when-let [things-that-need-dox (seq (things-that-need-dox source-paths options))]
+      (println (format "Every public var might as well have a docstring! Go write some for the following (or make them ^:private):\n%s"
+                       (with-out-str (pprint/pprint things-that-need-dox))))
+      (System/exit -1))
+    (println "Everything is documented. Well done.")
+    (System/exit 0)
+    (catch Throwable e
+      (println "Error checking docstrings." e)
+      (System/exit -2))))
