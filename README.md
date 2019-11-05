@@ -12,10 +12,16 @@ Leiningen Plugin that lints your Clojure project and checks that every public va
 Add `docstring-checker` to your `:plugins` in your `project.clj`:
 
 ```clojure
-:plugins [[docstring-checker "1.0.3"]]
+:plugins [[docstring-checker "1.1.0"]]
 ```
 
-Optionally specify which namespace regex patterns to `:include` and `:exclude` in your `project.clj`:
+Run the linter:
+
+```bash
+$ lein docstring-checker
+```
+
+Optionally specify which namespace regex patterns to `:include` and `:exclude` in your `project.clj`. (By default, the linter will check everything in your `:source-paths`):
 
 ```clojure
 :docstring-checker {:include [#"^my-project\.core"]
@@ -23,29 +29,23 @@ Optionally specify which namespace regex patterns to `:include` and `:exclude` i
                               #"^my-project\.secret"]}
 ```
 
-Then run the linter with
-
-```bash
-$ lein docstring-checker
-```
-
 The linter will fail if any public vars in namespaces that match the specified patterns are undocumented.
-
 
 ## Running Tests
 
-Docstring Checker has a few small Leiningen projects in the `test-projects` directory that are used to make sure things are working correctly.
+Docstring Checker has a small Leiningen project with a few different profiles in the `test-project` directory that is used to make sure things are working correctly.
+
 You can run the shell script to test them:
 
 ```bash
 ./run-tests.sh
 ```
 
-These tests run on [CircleCI](https://circleci.com/gh/camsaul/lein-docstring-checker) whenever a new commit is pushed.
+These tests also run on [CircleCI](https://circleci.com/gh/camsaul/lein-docstring-checker) whenever a new commit is pushed.
 
 
 ## License
 
-Copyright © 2018 Cam Saul
+Copyright © 2017-2019 Cam Saul
 
 Distributed under the [3-Clause BSD License](https://raw.githubusercontent.com/camsaul/lein-docstring-checker/master/LICENSE.txt).
