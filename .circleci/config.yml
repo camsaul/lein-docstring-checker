@@ -1,40 +1,143 @@
 version: 2.1
 
-jobs:
-  test:
-    working_directory: /home/circleci/camsaul/lein-docstring-checker
+executors:
+
+  default:
+    parameters:
+      dir:
+        type: string
+        default: /home/circleci/camsaul/lein-docstring-checker/
+    working_directory: << parameters.dir >>
     docker:
-      - image: circleci/clojure:lein-2.8.1
+      - image: circleci/clojure:lein-2.9.1
+
+commands:
+
+  attach-workspace:
     steps:
-      ########## FETCH SOURCE ##########
+      - attach_workspace:
+          at: /home/circleci/
+
+  save-deps-cache:
+    steps:
+      - save_cache:
+          key: deps-{{ checksum "project.clj" }}
+          paths:
+            - /home/circleci/.m2
+
+  restore-deps-cache:
+    steps:
+      - restore_cache:
+          keys:
+            - deps-{{ checksum "project.clj" }}
+            - deps-
+
+jobs:
+
+  checkout:
+    executor: default
+    steps:
       - restore_cache:
           keys:
             - source-{{ .Branch }}-{{ .Revision }}
-            - source-{{ .Branch }}-
+            - source-{{ .Branch }}
             - source-
       - checkout
       - save_cache:
           key: source-{{ .Branch }}-{{ .Revision }}
           paths:
             - .git
-      ########## FETCH DEPS ##########
-      - restore_cache:
-          keys:
-            - be-deps-{{ checksum "project.clj" }}
-            - be-deps-
-      - run: lein deps
-      - save_cache:
-          key: be-deps-{{ checksum "project.clj" }}
+      - persist_to_workspace:
+          root: /home/circleci/
           paths:
-            - /home/circleci/.m2
-      ########## RUN TESTS ##########
+            - camsaul/lein-docstring-checker
+
+  lein:
+    parameters:
+      e:
+        type: string
+        default: default
+      dir:
+        type: string
+        default: /home/circleci/camsaul/lein-docstring-checker/
+      lein-command:
+        type: string
+      after:
+        type: steps
+        default: []
+    executor:
+      name: << parameters.e >>
+      dir: << parameters.dir >>
+    steps:
+      - attach-workspace
+      - restore-deps-cache
       - run:
-          name: Run tests
-          command: ./run-tests.sh
-          no_output_timeout: 5m
+          command: lein << parameters.lein-command >>
+          no_output_timeout: 1m
+      - steps: << parameters.after >>
+
 
 workflows:
   version: 2
   build:
     jobs:
-      - test
+      - checkout
+
+      - lein:
+          name: deps
+          requires:
+            - checkout
+          lein-command: deps
+          after:
+            - save-deps-cache
+
+      - lein:
+          name: install-locally
+          requires:
+            - deps
+          lein-command: install
+          after:
+            - persist_to_workspace:
+                root: /home/circleci/
+                paths:
+                  - .m2/repository/docstring-checker/
+
+      - lein:
+          name: good
+          requires:
+            - install-locally
+          dir: /home/circleci/camsaul/lein-docstring-checker/test-project/
+          lein-command: with-profile +good docstring-checker
+
+      - lein:
+          name: bad
+          requires:
+            - install-locally
+          dir: /home/circleci/camsaul/lein-docstring-checker/test-project/
+          lein-command: with-profile +bad docstring-checker || export FAILED=1; [ -n "$FAILED" ]
+
+      - lein:
+          name: good-with-patterns
+          requires:
+            - install-locally
+          dir: /home/circleci/camsaul/lein-docstring-checker/test-project/
+          lein-command: with-profile +good-with-patterns docstring-checker
+
+      - lein:
+          name: bad-with-patterns
+          requires:
+            - install-locally
+          dir: /home/circleci/camsaul/lein-docstring-checker/test-project/
+          lein-command: with-profile +bad-with-patterns docstring-checker || export FAILED=1; [ -n "$FAILED" ]
+
+      - lein:
+          name: deploy
+          requires:
+            - good
+            - bad
+            - good-with-patterns
+            - bad-with-patterns
+          lein-command: deploy clojars
+          filters:
+            branches:
+              only: master
