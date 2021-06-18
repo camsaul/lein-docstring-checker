@@ -1,3 +1,7 @@
+# NOTICE: AS OF JUNE 2021 THIS LINTER IS OFFICIALLY DEPRECATED!
+
+**[`clj-kondo`](https://github.com/clj-kondo/clj-kondo)** now includes an optional [docstring checker linter](https://github.com/clj-kondo/clj-kondo/blob/master/doc/linters.md#missing-docstring), so there's no need for this little linter anymore. Use `clj-kondo` instead!
+
 # docstring-checker
 
 [![Clojars Project](https://clojars.org/docstring-checker/latest-version.svg)](http://clojars.org/docstring-checker)
@@ -46,6 +50,6 @@ These tests also run on [CircleCI](https://circleci.com/gh/camsaul/lein-docstrin
 
 ## License
 
-Copyright © 2017-2019 Cam Saul
+Copyright © 2017-2021 Cam Saul
 
 Distributed under the [3-Clause BSD License](https://raw.githubusercontent.com/camsaul/lein-docstring-checker/master/LICENSE.txt).
